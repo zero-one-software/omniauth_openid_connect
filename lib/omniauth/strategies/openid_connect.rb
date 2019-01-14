@@ -42,6 +42,7 @@ module OmniAuth
       option :send_nonce, true
       option :send_scope_to_token_endpoint, true
       option :client_auth_method
+      option :skip_verification, false
 
       uid { user_info.sub }
 
@@ -130,7 +131,8 @@ module OmniAuth
       end
 
       def public_key
-        return config.jwks if options.discovery
+        return :skip_verification if options.skip_verification
+        return config.jwks        if options.discovery
         key_or_secret
       end
 
